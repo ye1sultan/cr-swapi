@@ -1,5 +1,7 @@
 'use client';
 
+import { cn } from '@/src/lib/utils';
+
 import {
   Pagination,
   PaginationContent,
@@ -9,7 +11,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/src/components/ui/pagination';
-import { cn } from '@/src/lib/utils';
 
 interface PaginationControlsProps {
   currentPage: number;
@@ -56,7 +57,7 @@ export function PaginationControls({
   const pages = getPageNumbers(totalPages, currentPage);
 
   return (
-    <Pagination className="mx-0 w-fit">
+    <Pagination className="mx-0 w-fit self-end">
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
