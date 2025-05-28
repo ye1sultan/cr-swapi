@@ -1,11 +1,11 @@
-import { getPeople } from '@/src/providers/api/services/getPeople';
+import { getPeople } from '@/src/providers/api/services/people';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetPeople = () => {
+export const useGetPeople = (page: number, query: string, gender: string) => {
   const { data, isLoading, error } = useQuery({
-    queryKey: ['people'],
-    queryFn: getPeople,
+    queryKey: ['people', page, query, gender],
+    queryFn: () => getPeople(page, query, gender),
   });
 
-  return { people: data, isLoading, error };
+  return { peopleData: data, isLoading, error };
 };
