@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "arrowParens": "always",
+  "useTabs": false,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "trailingComma": "es5",
+  "semi": true,
+  "bracketSpacing": true,
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "importOrder": [
+    "^react$",
+    "^next(/.*)?$",
+
+    "<THIRD_PARTY_MODULES>",
+
+    "^@apollo(.*)$",
+
+    "^@hookform(.*)$",
+    "^react-hook-form(.*)$",
+
+    "^@/app(.*)$",
+    "^@/app-pages(.*)$",
+    "^@/features(.*)$",
+    "^@/services(.*)$",
+    "^@/queries(.*)$",
+    "^@/helpers(.*)$",
+    "^@/config(.*)$",
+    "^@/constants(.*)$",
+    "^@/hooks(.*)$",
+    "^@/context(.*)$",
+    "^@/utils(.*)$",
+    "^@/styles(.*)$",
+    "^@/widgets(.*)$",
+    "^@/components(.*)$",
+    "^sonner(.*)$",
+
+    "^@/types(.*)$",
+
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
+}
