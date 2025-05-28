@@ -10,7 +10,7 @@ export const getPeople = async (
 ) => {
   const query = new URLSearchParams();
   query.set('page', page.toString());
-  if (search) query.set('name', search);
+  if (search) query.set('search', search);
   if (gender) query.set('gender', gender);
 
   const res = await apiFetch(`/people?${query.toString()}`);

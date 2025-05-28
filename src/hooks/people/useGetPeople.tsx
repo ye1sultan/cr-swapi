@@ -1,4 +1,4 @@
-import { getPeople } from '@/src/providers/api/services/people';
+import { getPeople } from '@/src/api/services/people';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetPeople = (page: number, query: string, gender: string) => {
