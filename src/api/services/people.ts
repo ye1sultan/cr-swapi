@@ -1,23 +1,23 @@
 import { IPaginatedResponse } from '@/src/types/paginated-response';
 import { IPerson } from '@/src/types/person';
 
-import { apiFetch } from '../api';
-
 export const getPeople = async (
   page: number = 1,
   search: string,
   gender: string
-) => {
+): Promise<IPaginatedResponse<IPerson>> => {
   const query = new URLSearchParams();
   query.set('page', page.toString());
   if (search) query.set('search', search);
   if (gender) query.set('gender', gender);
 
-  const res = await apiFetch(`/people?${query.toString()}`);
-  return res as IPaginatedResponse<IPerson>;
+  const res = await fetch(`/api/swapi/people?${query.toString()}`);
+  if (!res.ok) throw new Error('Failed to fetch people');
+  return res.json();
 };
 
-export const getPerson = async (personId: string) => {
-  const res = await apiFetch(`/people/${personId}`);
-  return res as IPerson;
+export const getPerson = async (personId: string): Promise<IPerson> => {
+  const res = await fetch(`/api/swapi/people/${personId}`);
+  if (!res.ok) throw new Error('Failed to fetch person');
+  return res.json();
 };

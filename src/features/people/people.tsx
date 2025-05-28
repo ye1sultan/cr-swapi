@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -13,7 +13,6 @@ import { TypographyH2 } from '@/src/components/ui/typography/h2';
 
 import { Header } from './ui/header/header';
 import { PeopleList } from './ui/people-list/people-list';
-import { PersonModal } from './ui/people-list/ui/people-card/ui/person-modal/person-modal';
 import { PeopleSkeleton } from './ui/people-skeleton/people-skeleton';
 
 export default function People() {
@@ -22,13 +21,7 @@ export default function People() {
 
   const page = Number(searchParams.get('page') || '1');
   const gender = searchParams.get('gender') || '';
-  const personId = searchParams.get('person');
 
-  useEffect(() => {
-    setIsModalOpen(!!personId);
-  }, [personId]);
-
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [searchInput, setSearchInput] = useState<string>('');
   const debouncedSearch = useDebounce(searchInput, 500);
 
@@ -48,16 +41,6 @@ export default function People() {
 
   const people = peopleData?.results ?? [];
   const totalPages = Math.ceil((peopleData?.count ?? 0) / 10);
-
-  const selectedPersonId = people
-    .find((p) => p.url.includes(`/${personId}`))
-    ?.url.split('/')[5];
-
-  const handleModalClose = () => {
-    const params = new URLSearchParams(searchParams);
-    params.delete('person');
-    router.push(`?${params.toString()}`);
-  };
 
   return (
     <>
@@ -82,16 +65,6 @@ export default function People() {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-
-      {selectedPersonId && (
-        <PersonModal
-          open={isModalOpen}
-          onOpenChange={(open) => {
-            if (!open) handleModalClose();
-          }}
-          personId={selectedPersonId}
-        />
-      )}
     </>
   );
 }

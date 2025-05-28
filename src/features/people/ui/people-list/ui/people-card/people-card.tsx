@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { IPerson } from '@/src/types/person';
 
@@ -11,6 +13,8 @@ import {
 } from '@/src/components/ui/card';
 import { TypographyMuted } from '@/src/components/ui/typography/muted';
 
+import { PersonModal } from './ui/person-modal/person-modal';
+
 interface PeopleCardProps {
   index: number;
   person: IPerson;
@@ -18,13 +22,28 @@ interface PeopleCardProps {
 
 export function PeopleCard({ index, person }: PeopleCardProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const selectedPersonId = searchParams.get('person');
 
   const personId = person.url.split('/')[5];
   const imageUrl = personId ? `/people/${personId}.jpg` : '/people/1.jpg';
 
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsModalOpen(selectedPersonId === personId);
+  }, [selectedPersonId, personId]);
+
   const handleClick = () => {
-    const params = new URLSearchParams(window.location.search);
+    const params = new URLSearchParams(searchParams);
     params.set('person', personId);
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleModalClose = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete('person');
     router.push(`?${params.toString()}`);
   };
 
@@ -53,9 +72,18 @@ export function PeopleCard({ index, person }: PeopleCardProps) {
           <TypographyMuted>Height: {person.height}</TypographyMuted>
           <TypographyMuted>Gender: {person.gender}</TypographyMuted>
           <TypographyMuted>Birth year: {person.birth_year}</TypographyMuted>
-          <TypographyMuted>Birth year: {person.birth_year}</TypographyMuted>
         </CardContent>
       </Card>
+
+      {personId && (
+        <PersonModal
+          open={isModalOpen}
+          onOpenChange={(open) => {
+            if (!open) handleModalClose();
+          }}
+          personId={personId}
+        />
+      )}
     </>
   );
 }
